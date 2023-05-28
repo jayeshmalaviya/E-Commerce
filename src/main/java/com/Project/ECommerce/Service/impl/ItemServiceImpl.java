@@ -1,5 +1,6 @@
 package com.Project.ECommerce.Service.impl;
 
+import com.Project.ECommerce.Enum.ItemStatus;
 import com.Project.ECommerce.Exception.ProductNotFoundException;
 import com.Project.ECommerce.Model.Item;
 import com.Project.ECommerce.Model.Product;
@@ -28,16 +29,16 @@ public class ItemServiceImpl implements ItemService {
             throw new ProductNotFoundException("Invalid product id");
         }
 
-        Item item = Item.builder()
-                .requiredQuantity(0)
-                .product(product)
-                .build();
+        //product should be listed as items
+        Item item =new Item();
+
+        item.setProduct(product);
 
         // set the item in product
-        product.setItem(item);
+        product.setItem(item); //map the product to the items, since now this product has become an items
 
-        //saving both item and product
-        productRepository.save(product);
+        item.setItemStatus(ItemStatus.VIEWED);
+
 
         //make the responseDto
         ItemResponseDto itemResponseDto = ItemResponseDto.builder()
@@ -46,6 +47,9 @@ public class ItemServiceImpl implements ItemService {
                 .productCategory(product.getProductCategory())
                 .productStatus(product.getProductStatus())
                 .build();
+
+        //saving both item and product
+        productRepository.save(product);
 
         return itemResponseDto;
     }

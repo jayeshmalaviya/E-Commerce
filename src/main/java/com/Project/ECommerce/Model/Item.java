@@ -1,5 +1,6 @@
 package com.Project.ECommerce.Model;
 
+import com.Project.ECommerce.Enum.ItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,4 +34,7 @@ public class Item {
     @ManyToOne
     @JoinColumn
     Ordered ordered;
+
+    @Enumerated(EnumType.STRING)
+    private ItemStatus itemStatus;
 }
